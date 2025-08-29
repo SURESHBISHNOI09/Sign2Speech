@@ -258,33 +258,6 @@ CORS_ORIGINS=https://yourdomain.com
 LOG_LEVEL=INFO
 ```
 
-## 🎬 Hackathon Demo Script
-
-### 5-Minute Presentation Outline
-
-**1. Opening Hook (30 seconds)**
-> "466 million people worldwide use sign language, but most of us can't understand it. This creates massive barriers in education, healthcare, and employment. What if we could bridge this gap with AI?"
-
-**2. Solution Demo (3 minutes)**
-> "Meet Sign2Speech - real-time AI translation between sign language and speech."
-> - Show stunning homepage with smooth animations
-> - Navigate to live demo with camera activation
-> - Demonstrate gesture recognition with speech output
-> - Show bidirectional communication with speech-to-text
-> - Highlight privacy-first local processing
-
-**3. Technical Excellence (1 minute)**
-> "Built with cutting-edge technology - MediaPipe for hand tracking, TensorFlow.js for browser-based ML, and FastAPI for scalable backend. 95% accuracy, sub-100ms latency, works offline."
-
-**4. Impact & Future (30 seconds)**
-> "This isn't just a demo - it's a glimpse of inclusive communication. Ready to scale globally and transform accessibility for millions."
-
-### Backup Plans
-- 📹 **Pre-recorded demo** if camera fails
-- 💻 **Offline mode** if internet is spotty
-- 📱 **Mobile version** for smaller screens
-- 🎯 **Key talking points** memorized for any scenario
-
 ## 🔮 Roadmap & Future Enhancements
 
 ### Phase 1: Enhanced Recognition (Next 3 months)
@@ -388,7 +361,7 @@ See the [LICENSE](LICENSE) file for full details.
 4. 💬 **Join our community** for updates and discussions
 
 ### Quick Links
-- [🎮 Live Demo](https://sign2speech-demo.vercel.app)
+- [🎮 Live Demo](https://sign2speechh.netlify.app/)
 - [📚 API Docs](https://sign2speech-api.herokuapp.com/docs)
 - [🎬 Demo Video](https://youtube.com/watch?v=sign2speech-demo)
 - [💬 Community Chat](https://discord.gg/sign2speech)
