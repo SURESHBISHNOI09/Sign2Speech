@@ -1,0 +1,32 @@
+
+Sign2Speech Complete Project Structure
+=====================================
+
+sign2speech/
+├── 📄 README.md                    # Comprehensive project documentation  
+├── 🚫 .gitignore                   # Git ignore rules
+├── ⚙️ setup.sh                     # Automated setup script
+│
+├── 🌐 frontend/                    # Frontend Application
+│   ├── 📄 index.html              # Main HTML with all pages
+│   ├── 🎨 style.css               # Complete responsive styling
+│   └── ⚡ app.js                  # JavaScript application logic
+│
+├── 🔧 backend/                     # FastAPI Backend
+│   ├── 🐍 app.py                  # Main FastAPI application
+│   └── 📦 requirements.txt        # Python dependencies
+│
+├── 🧠 models/                      # Machine Learning Components
+│   ├── 🎯 train_classifier.py     # Gesture classification training
+│   ├── 📹 record_samples.py       # Data collection utilities
+│   └── 📁 tfjs_model/             # TensorFlow.js model directory
+│
+├── 🎬 demo/                        # Hackathon Materials
+│   ├── 📝 demo_script.txt         # Presentation script
+│   └── 🎯 shot_list.md            # Demo shot list
+│
+└── 📚 docs/                        # Documentation
+    └── 🛠️ development.md          # Development guide
+
+✅ Complete, production-ready hackathon project!
+🚀 Ready for deployment and presentation!

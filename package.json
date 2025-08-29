@@ -1,0 +1,23 @@
+{
+  "name": "sign2speech",
+  "version": "1.0.0",
+  "description": "AI-powered sign language to speech translation",
+  "main": "frontend/index.html",
+  "scripts": {
+    "start": "cd frontend && python -m http.server 3000",
+    "backend": "cd backend && python app.py",
+    "dev": "concurrently \"npm run backend\" \"npm run start\"",
+    "setup": "chmod +x setup.sh && ./setup.sh"
+  },
+  "keywords": ["sign-language", "ai", "accessibility", "speech-recognition"],
+  "author": "Suresh Bishnoi <gyanshri68@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sureshbishnoi09/sign2speech.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sureshbishnoi09/sign2speech/issues"
+  },
+  "homepage": "https://github.com/sureshbishnoi09/sign2speech#readme"
+}

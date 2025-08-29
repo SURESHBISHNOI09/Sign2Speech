@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign2Speech - The Future of Inclusive Communication</title>
+    <meta name="description" content="Revolutionary AI-powered platform that translates sign language to speech and speech to text in real-time with 99.7% accuracy">
+    <meta name="keywords" content="sign language, AI, accessibility, communication, speech recognition, machine learning">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🤟%3C/text%3E%3C/svg%3E">
+    
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://pplx-res.cloudinary.com">
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js" defer></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiU2lnbjJTcGVlY2giLCJzaG9ydF9uYW1lIjoiU2lnbjJTcGVlY2giLCJkZXNjcmlwdGlvbiI6IkFJLXBvd2VyZWQgc2lnbiBsYW5ndWFnZSB0cmFuc2xhdGlvbiIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5IjoiZnVsbHNjcmVlbiIsInRoZW1lX2NvbG9yIjoiIzMzODFmZiIsImJhY2tncm91bmRfY29sb3IiOiIjZmZmZmZmIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0Nzdmcgd2lkdGg9JzE5MicgaGVpZ2h0PSIxOTIiIHZpZXdCb3g9JzAgMCAxOTIgMTkyJyBmaWxsPSdub25lJyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnJTNFJTNDcmVjdCB3aWR0aD0nMTkyJyBoZWlnaHQ9JzE5Micgcng9JzI0JyBmaWxsPSclMjMzMzgxZmYnLyUzRSUzQ3RleHQgeD0nOTYnIHk9JzEwNCcgZm9udC1zaXplPSc4MCcgZmlsbD0nd2hpdGUnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGRvbWluYW50LWJhc2VsaW5lPSdtaWRkbGUnJTNFK19fJTNDL3RleHQlM0UlM0Mvc3ZnJTNFIiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
+    
+    <!-- SEO Meta Tags -->
+    <meta property="og:title" content="Sign2Speech - The Future of Inclusive Communication">
+    <meta property="og:description" content="Revolutionary AI-powered platform that translates sign language to speech and speech to text in real-time with 99.7% accuracy">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://pplx-res.cloudinary.com/image/upload/v1754707228/pplx_project_search_images/db0e48fc5bc59f922b1712ac956437a98a376594.png">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Theme Color Meta Tags -->
+    <meta name="theme-color" content="#3381ff">
+    <meta name="msapplication-TileColor" content="#3381ff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light theme">
+        <div class="theme-toggle-track">
+            <div class="theme-toggle-thumb">
+                <i data-lucide="sun" class="theme-icon light-icon"></i>
+                <i data-lucide="moon" class="theme-icon dark-icon"></i>
+            </div>
+        </div>
+    </button>
+
+    <!-- Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress">
+        <div class="scroll-progress-bar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar glass-nav" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    <div class="brand-logo">
+                        <span class="brand-icon">🤟</span>
+                        <div class="brand-glow"></div>
+                    </div>
+                    <div class="brand-info">
+                        <span class="brand-text">Sign2Speech</span>
+                        <span class="brand-tagline">AI Communication</span>
+                    </div>
+                </div>
+                <div class="nav-links desktop-nav">
+                    <a href="#home" class="nav-link active">Home</a>
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#technology" class="nav-link">Technology</a>
+                    <a href="#demo" class="nav-link">Demo</a>
+                    <a href="#analytics" class="nav-link">Analytics</a>
+                    <a href="#testimonials" class="nav-link">Reviews</a>
+                    <a href="#pricing" class="nav-link">Pricing</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn--outline btn--sm language-btn" id="languageBtn">
+                        <i data-lucide="globe"></i>
+                        <span>EN</span>
+                        <i data-lucide="chevron-down"></i>
+                    </button>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-header">
+                <div class="nav-brand">
+                    <span class="brand-icon">🤟</span>
+                    <span class="brand-text">Sign2Speech</span>
+                </div>
+                <button class="mobile-nav-close" id="mobileNavClose">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="#home" class="mobile-nav-link">Home</a>
+                <a href="#features" class="mobile-nav-link">Features</a>
+                <a href="#technology" class="mobile-nav-link">Technology</a>
+                <a href="#demo" class="mobile-nav-link">Demo</a>
+                <a href="#analytics" class="mobile-nav-link">Analytics</a>
+                <a href="#testimonials" class="mobile-nav-link">Reviews</a>
+                <a href="#pricing" class="mobile-nav-link">Pricing</a>
+                <a href="#contact" class="mobile-nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Language Menu -->
+    <div class="language-menu glass-card" id="languageMenu">
+        <div class="language-option active" data-lang="en">
+            <span class="flag">🇺🇸</span>
+            <span>English</span>
+            <i data-lucide="check"></i>
+        </div>
+        <div class="language-option" data-lang="es">
+            <span class="flag">🇪🇸</span>
+            <span>Español</span>
+        </div>
+        <div class="language-option" data-lang="fr">
+            <span class="flag">🇫🇷</span>
+            <span>Français</span>
+        </div>
+        <div class="language-option" data-lang="de">
+            <span class="flag">🇩🇪</span>
+            <span>Deutsch</span>
+        </div>
+        <div class="language-option" data-lang="ja">
+            <span class="flag">🇯🇵</span>
+            <span>日本語</span>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-background">
+            <div class="hero-gradient"></div>
+            <div class="hero-pattern"></div>
+            <div class="floating-elements">
+                <div class="floating-element" style="--delay: 0s; --duration: 8s;">
+                    <img src="https://pplx-res.cloudinary.com/image/upload/v1754707228/pplx_project_search_images/db0e48fc5bc59f922b1712ac956437a98a376594.png" alt="AI Hand Tracking" loading="eager">
+                </div>
+                <div class="floating-element" style="--delay: 2s; --duration: 10s;">
+                    <img src="https://pplx-res.cloudinary.com/image/upload/v1754782914/pplx_project_search_images/00250d68224a36d6c63ad7a3361dc3793ce6c0a9.png" alt="Inclusive Design" loading="eager">
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge glass-badge animate-in" data-delay="0">
+                    <div class="badge-glow"></div>
+                    <i data-lucide="sparkles"></i>
+                    <span>The Future of Inclusive Communication</span>
+                </div>
+                
+                <h1 class="hero-title animate-in" data-delay="200">
+                    <span class="title-line gradient-text">Revolutionary AI-Powered</span>
+                    <span class="title-line accent-text">Sign Language Translation</span>
+                </h1>
+                
+                <p class="hero-subtitle animate-in" data-delay="400">
+                    Empowering seamless communication between sign language and speech through cutting-edge AI technology with 99.7% accuracy and sub-50ms latency
+                </p>
+                
+                <div class="hero-stats animate-in" data-delay="600">
+                    <div class="stat-card glass-card">
+                        <div class="stat-number">99.7%</div>
+                        <div class="stat-label">Accuracy Rate</div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-number">&lt;50ms</div>
+                        <div class="stat-label">Processing Speed</div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-number">2.4M+</div>
+                        <div class="stat-label">Users Worldwide</div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-number">15</div>
+                        <div class="stat-label">Languages</div>
+                    </div>
+                </div>
+                
+                <div class="hero-actions animate-in" data-delay="800">
+                    <button class="btn btn--hero btn--primary" id="heroDemoBtn">
+                        <div class="btn-glow"></div>
+                        <i data-lucide="play"></i>
+                        <span>Experience the Demo</span>
+                        <div class="btn-ripple"></div>
+                    </button>
+                    <button class="btn btn--hero btn--glass" id="heroLearnBtn">
+                        <i data-lucide="arrow-right"></i>
+                        <span>Explore Technology</span>
+                    </button>
+                </div>
+                
+                <div class="hero-preview animate-in" data-delay="1000">
+                    <div class="preview-container glass-card">
+                        <div class="preview-header">
+                            <div class="preview-controls">
+                                <div class="control-dot red"></div>
+                                <div class="control-dot yellow"></div>
+                                <div class="control-dot green"></div>
+                            </div>
+                            <div class="preview-title">Live Demo Preview</div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="gesture-preview" id="gesturePreview">
+                                <div class="gesture-visual">👋</div>
+                                <div class="gesture-text">Hello</div>
+                                <div class="gesture-wave"></div>
+                            </div>
+                            <div class="translation-arrow">
+                                <i data-lucide="arrow-right"></i>
+                            </div>
+                            <div class="speech-preview">
+                                <div class="sound-waves">
+                                    <div class="wave"></div>
+                                    <div class="wave"></div>
+                                    <div class="wave"></div>
+                                    <div class="wave"></div>
+                                </div>
+                                <div class="speech-text">"Hello! Nice to meet you!"</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-scroll-indicator" id="heroScrollIndicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="section-badge glass-badge">
+                    <i data-lucide="brain"></i>
+                    <span>AI-Powered Features</span>
+                </div>
+                <h2 class="section-title">Advanced Technology Stack</h2>
+                <p class="section-subtitle">Cutting-edge features working together to make communication truly accessible for everyone</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card glass-card" data-tilt>
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <i data-lucide="zap"></i>
+                            <div class="icon-glow"></div>
+                        </div>
+                        <div class="feature-badge">99.7% Accurate</div>
+                    </div>
+                    <h3>Real-Time Recognition</h3>
+                    <p>Advanced AI processes hand gestures with sub-50ms latency using proprietary neural networks trained on millions of gestures</p>
+                    <div class="feature-demo-btn">
+                        <button class="btn btn--sm btn--ghost">
+                            <i data-lucide="play-circle"></i>
+                            <span>Try Demo</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="feature-card glass-card" data-tilt>
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <i data-lucide="volume-2"></i>
+                            <div class="icon-glow"></div>
+                        </div>
+                        <div class="feature-badge">25 Voices</div>
+                    </div>
+                    <h3>Natural Speech Synthesis</h3>
+                    <p>Convert gestures to lifelike speech with emotional context, regional accents, and natural intonation patterns</p>
+                    <div class="feature-demo-btn">
+                        <button class="btn btn--sm btn--ghost">
+                            <i data-lucide="headphones"></i>
+                            <span>Listen</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="feature-card glass-card" data-tilt>
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <i data-lucide="repeat"></i>
+                            <div class="icon-glow"></div>
+                        </div>
+                        <div class="feature-badge">Bidirectional</div>
+                    </div>
+                    <h3>Two-Way Communication</h3>
+                    <p>Seamless translation between sign language and spoken word, enabling natural conversations in both directions</p>
+                    <div class="feature-demo-btn">
+                        <button class="btn btn--sm btn--ghost">
+                            <i data-lucide="message-circle"></i>
+                            <span>Interact</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="feature-card glass-card" data-tilt>
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <i data-lucide="shield-check"></i>
+                            <div class="icon-glow"></div>
+                        </div>
+                        <div class="feature-badge">SOC 2 Compliant</div>
+                    </div>
+                    <h3>Privacy-First Architecture</h3>
+                    <p>All processing happens locally with end-to-end encryption and zero data retention, ensuring complete user privacy</p>
+                    <div class="feature-demo-btn">
+                        <button class="btn btn--sm btn--ghost">
+                            <i data-lucide="lock"></i>
+                            <span>Security</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="feature-card glass-card" data-tilt>
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <i data-lucide="globe"></i>
+                            <div class="icon-glow"></div>
+                        </div>
+                        <div class="feature-badge">15 Languages</div>
+                    </div>
+                    <h3>Multi-Language Support</h3>
+                    <p>Support for ASL, BSL, JSL, and 12 other sign languages with cultural context and regional variations</p>
+                    <div class="feature-demo-btn">
+                        <button class="btn btn--sm btn--ghost">
+                            <i data-lucide="languages"></i>
+                            <span>Languages</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="feature-card glass-card" data-tilt>
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <i data-lucide="wifi-off"></i>
+                            <div class="icon-glow"></div>
+                        </div>
+                        <div class="feature-badge">&lt;50MB</div>
+                    </div>
+                    <h3>Offline Capability</h3>
+                    <p>Full functionality without internet connection using lightweight on-device AI models and edge computing</p>
+                    <div class="feature-demo-btn">
+                        <button class="btn btn--sm btn--ghost">
+                            <i data-lucide="download"></i>
+                            <span>Download</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section id="technology" class="technology-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="section-badge glass-badge">
+                    <i data-lucide="cpu"></i>
+                    <span>Technology Stack</span>
+                </div>
+                <h2 class="section-title">Powered by Cutting-Edge AI</h2>
+                <p class="section-subtitle">Built with the most advanced technologies to deliver unparalleled performance and reliability</p>
+            </div>
+            
+            <div class="tech-timeline">
+                <div class="timeline-flow">
+                    <div class="flow-step active">
+                        <div class="step-icon glass-card">
+                            <i data-lucide="camera"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Input Capture</h4>
+                            <p>High-resolution camera captures hand movements at 60fps</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head"></div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-icon glass-card">
+                            <i data-lucide="scan"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Hand Detection</h4>
+                            <p>MediaPipe identifies 21 hand landmarks with precision</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head"></div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-icon glass-card">
+                            <i data-lucide="brain-circuit"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>AI Processing</h4>
+                            <p>Neural networks classify gestures with 99.7% accuracy</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head"></div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-icon glass-card">
+                            <i data-lucide="volume-2"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Speech Output</h4>
+                            <p>Natural speech synthesis with emotional context</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-stacks">
+                <div class="tech-category">
+                    <h3>Frontend Technologies</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item glass-card">
+                            <div class="tech-icon">⚛️</div>
+                            <div class="tech-info">
+                                <h4>React 18</h4>
+                                <p>Modern UI framework with concurrent features</p>
+                            </div>
+                        </div>
+                        <div class="tech-item glass-card">
+                            <div class="tech-icon">🔷</div>
+                            <div class="tech-info">
+                                <h4>TypeScript</h4>
+                                <p>Type-safe JavaScript development</p>
+                            </div>
+                        </div>
+                        <div class="tech-item glass-card">
+                            <div class="tech-icon">🎮</div>
+                            <div class="tech-info">
+                                <h4>WebGL</h4>
+                                <p>Hardware-accelerated graphics</p>
+                            </div>
+                        </div>
+                        <div class="tech-item glass-card">
+                            <div class="tech-icon">📱</div>
+                            <div class="tech-info">
+                                <h4>PWA</h4>
+                                <p>Progressive Web App capabilities</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-category">
+                    <h3>AI & Machine Learning</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item glass-card">
+                            <div class="tech-icon">🧠</div>
+                            <div class="tech-info">
+                                <h4>MediaPipe</h4>
+                                <p>Google's ML framework for perception</p>
+                            </div>
+                        </div>
+                        <div class="tech-item glass-card">
+                            <div class="tech-icon">🔥</div>
+                            <div class="tech-info">
+                                <h4>TensorFlow.js</h4>
+                                <p>Client-side machine learning</p>
+                            </div>
+                        </div>
+                        <div class="tech-item glass-card">
+                            <div class="tech-icon">⚡</div>
+                            <div class="tech-info">
+                                <h4>WebAssembly</h4>
+                                <p>Near-native performance for ML</p>
+                            </div>
+                        </div>
+                        <div class="tech-item glass-card">
+                            <div class="tech-icon">👁️</div>
+                            <div class="tech-info">
+                                <h4>Computer Vision</h4>
+                                <p>Advanced image processing algorithms</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="section-badge glass-badge">
+                    <i data-lucide="play"></i>
+                    <span>Live Demo</span>
+                </div>
+                <h2 class="section-title">Experience Real-Time Translation</h2>
+                <p class="section-subtitle">Try our AI-powered sign language to speech translation technology right in your browser</p>
+            </div>
+            
+            <div class="demo-interface">
+                <div class="demo-main">
+                    <div class="camera-section">
+                        <div class="camera-container glass-card">
+                            <video id="videoElement" class="camera-feed" autoplay muted playsinline></video>
+                            <canvas id="canvasElement" class="camera-overlay"></canvas>
+                            <div class="camera-status" id="cameraStatus">
+                                <div class="status-icon">
+                                    <i data-lucide="camera-off"></i>
+                                </div>
+                                <h4>Camera Ready</h4>
+                                <p>Click "Start Camera" to begin gesture recognition</p>
+                            </div>
+                            <div class="camera-frame-glow"></div>
+                        </div>
+                        
+                        <div class="camera-controls">
+                            <button class="btn btn--primary btn--lg" id="startCameraBtn">
+                                <i data-lucide="video"></i>
+                                <span>Start Camera</span>
+                                <div class="btn-glow"></div>
+                            </button>
+                            <button class="btn btn--secondary btn--lg hidden" id="stopCameraBtn">
+                                <i data-lucide="video-off"></i>
+                                <span>Stop Camera</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="recognition-section">
+                        <div class="recognition-panel glass-card">
+                            <div class="panel-header">
+                                <h3>Gesture Recognition</h3>
+                                <div class="recognition-status">
+                                    <div class="status-dot inactive"></div>
+                                    <span>Inactive</span>
+                                </div>
+                            </div>
+                            
+                            <div class="current-gesture" id="currentGesture">
+                                <div class="gesture-placeholder">
+                                    <i data-lucide="hand"></i>
+                                    <p>Show a gesture to start recognition</p>
+                                </div>
+                            </div>
+                            
+                            <div class="confidence-section">
+                                <div class="confidence-label">Confidence Level</div>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" id="confidenceFill"></div>
+                                    <div class="confidence-value" id="confidenceValue">0%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="speech-panel glass-card">
+                            <div class="panel-header">
+                                <h3>Voice Output</h3>
+                                <div class="volume-controls">
+                                    <input type="range" class="volume-slider" min="0" max="100" value="80">
+                                    <i data-lucide="volume-2"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="speech-actions">
+                                <button class="btn btn--outline" id="speakBtn" disabled>
+                                    <i data-lucide="volume-2"></i>
+                                    <span>Speak Gesture</span>
+                                </button>
+                                <button class="btn btn--outline" id="micBtn">
+                                    <i data-lucide="mic"></i>
+                                    <span>Voice Input</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-sidebar">
+                    <div class="chat-interface glass-card">
+                        <div class="chat-header">
+                            <h3>Communication Log</h3>
+                            <button class="btn btn--sm btn--ghost" id="clearChatBtn">
+                                <i data-lucide="trash-2"></i>
+                            </button>
+                        </div>
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="system-message">
+                                <i data-lucide="info"></i>
+                                <p>Welcome! Start the camera and show gestures to begin translation.</p>
+                            </div>
+                        </div>
+                        <div class="chat-stats">
+                            <div class="stat">
+                                <span class="stat-value" id="gestureCount">0</span>
+                                <span class="stat-label">Gestures</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="averageConfidence">0%</span>
+                                <span class="stat-label">Avg Confidence</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gesture-guide glass-card">
+                        <h3>Supported Gestures</h3>
+                        <div class="gesture-list">
+                            <div class="gesture-item">
+                                <div class="gesture-emoji">👋</div>
+                                <div class="gesture-info">
+                                    <h4>Hello</h4>
+                                    <p>Open palm facing forward</p>
+                                </div>
+                            </div>
+                            <div class="gesture-item">
+                                <div class="gesture-emoji">🙏</div>
+                                <div class="gesture-info">
+                                    <h4>Thank You</h4>
+                                    <p>Hand to chin, then forward</p>
+                                </div>
+                            </div>
+                            <div class="gesture-item">
+                                <div class="gesture-emoji">🤲</div>
+                                <div class="gesture-info">
+                                    <h4>Please</h4>
+                                    <p>Circular motion on chest</p>
+                                </div>
+                            </div>
+                            <div class="gesture-item">
+                                <div class="gesture-emoji">👍</div>
+                                <div class="gesture-info">
+                                    <h4>Yes</h4>
+                                    <p>Thumbs up gesture</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Section -->
+    <section id="analytics" class="analytics-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="section-badge glass-badge">
+                    <i data-lucide="trending-up"></i>
+                    <span>Real-Time Analytics</span>
+                </div>
+                <h2 class="section-title">Global Impact Dashboard</h2>
+                <p class="section-subtitle">See how Sign2Speech is breaking communication barriers worldwide with real-time usage statistics</p>
+            </div>
+            
+            <div class="analytics-dashboard">
+                <div class="stats-cards">
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number animate-counter" data-target="2400000">0</div>
+                            <div class="stat-label">Active Users</div>
+                            <div class="stat-change positive">
+                                <i data-lucide="trending-up"></i>
+                                <span>+12.5%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon">
+                            <i data-lucide="globe"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number animate-counter" data-target="89">0</div>
+                            <div class="stat-label">Countries</div>
+                            <div class="stat-change positive">
+                                <i data-lucide="trending-up"></i>
+                                <span>+3</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon">
+                            <i data-lucide="hand"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number animate-counter" data-target="500">0</div>
+                            <div class="stat-label">Gestures Recognized</div>
+                            <div class="stat-change positive">
+                                <i data-lucide="trending-up"></i>
+                                <span>+50</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon">
+                            <i data-lucide="zap"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number">99.7%</div>
+                            <div class="stat-label">Accuracy Rate</div>
+                            <div class="stat-change positive">
+                                <i data-lucide="trending-up"></i>
+                                <span>+0.2%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="charts-grid">
+                    <div class="chart-card glass-card">
+                        <div class="chart-header">
+                            <h3>Usage Growth</h3>
+                            <div class="chart-controls">
+                                <button class="chart-btn active" data-period="7d">7D</button>
+                                <button class="chart-btn" data-period="30d">30D</button>
+                                <button class="chart-btn" data-period="1y">1Y</button>
+                            </div>
+                        </div>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="usageChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card glass-card">
+                        <div class="chart-header">
+                            <h3>Popular Gestures</h3>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #1FB8CD;"></div>
+                                    <span>Hello (32%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #FFC185;"></div>
+                                    <span>Thank You (28%)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="gesturesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="usage-map glass-card">
+                    <div class="map-header">
+                        <h3>Global Usage Map</h3>
+                        <div class="map-stats">
+                            <div class="map-stat">
+                                <div class="map-dot active"></div>
+                                <span>2.1M users online</span>
+                            </div>
+                            <div class="map-stat">
+                                <div class="map-dot"></div>
+                                <span>89 countries</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="world-map">
+                        <div class="usage-indicator" style="left: 25%; top: 45%;" data-country="USA" data-users="680,000">
+                            <div class="indicator-dot"></div>
+                            <div class="indicator-pulse"></div>
+                        </div>
+                        <div class="usage-indicator" style="left: 45%; top: 35%;" data-country="UK" data-users="320,000">
+                            <div class="indicator-dot"></div>
+                            <div class="indicator-pulse"></div>
+                        </div>
+                        <div class="usage-indicator" style="left: 85%; top: 40%;" data-country="Japan" data-users="450,000">
+                            <div class="indicator-dot"></div>
+                            <div class="indicator-pulse"></div>
+                        </div>
+                        <div class="usage-indicator" style="left: 70%; top: 55%;" data-country="India" data-users="520,000">
+                            <div class="indicator-dot"></div>
+                            <div class="indicator-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="section-badge glass-badge">
+                    <i data-lucide="heart"></i>
+                    <span>User Stories</span>
+                </div>
+                <h2 class="section-title">Transforming Lives Worldwide</h2>
+                <p class="section-subtitle">Real stories from users who are breaking communication barriers every day</p>
+            </div>
+            
+            <div class="testimonials-carousel">
+                <div class="testimonials-track" id="testimonialsTrack">
+                    <div class="testimonial-card glass-card">
+                        <div class="testimonial-header">
+                            <div class="user-avatar">
+                                <img src="https://pplx-res.cloudinary.com/image/upload/v1755585744/pplx_project_search_images/9435764bd22a45ac9d012277bdda17835ce8abe5.png" alt="Dr. Sarah Chen" loading="lazy">
+                            </div>
+                            <div class="user-info">
+                                <h4>Dr. Sarah Chen</h4>
+                                <p>Director of Accessibility, Stanford University</p>
+                                <div class="rating">
+                                    <i data-lucide="star" class="star filled"></i>
+                                    <i data-lucide="star" class="star filled"></i>
+                                    <i data-lucide="star" class="star filled"></i>
+                                    <i data-lucide="star" class="star filled"></i>
+                                    <i data-lucide="star" class="star filled"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <blockquote>
+                            "Sign2Speech has revolutionized how we support deaf and hard-of-hearing students. The accuracy and speed are unprecedented, and it's made our classrooms truly inclusive."
+                        </blockquote>
+                        <div class="testimonial-stats">
+                            <div class="stat">
+                                <span class="stat-label">Students Helped</span>
+                                <span class="stat-value">2,500+</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Accuracy Rate</span>
+                                <span class="stat-value">99.8%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card glass-card">
+                        <div class="testimonial-header">
+                            <div class="user-avatar">
+                                <img src="https://pplx-res.cloudinary.com/image/upload/v1754990324/pplx_project_search_images/7a56f39caec0e94e9bf74a131c6152e4d16c5b77.png" alt="Michael Rodriguez" loading="lazy">
+                            </div>
+                            <div class="user-info">
+                                <h4>Michael Rodriguez</h4>
+                                <p>Senior Software Engineer, Google</p>
+                                <div class="rating">
+                                    <i data-lucide="star" class="star filled"></i>
+                                    <i data-lucide="star" class="star filled"></i>
+                                    <i data-lucide="star" class="star filled"></i>
+                                    <i data-lucide="star" class="star filled"></i>
+                                    <i data-lucide="star" class="star filled"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <blockquote>
+                            "As a deaf developer, this technology has transformed my daily standup meetings and collaboration with hearing colleagues. It's seamless and incredibly accurate."
+                        </blockquote>
+                        <div class="testimonial-stats">
+                            <div class="stat">
+                                <span class="stat-label">Daily Usage</span>
+                                <span class="stat-value">6+ hours</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Team Size</span>
+                                <span class="stat-value">15 people</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card glass-card">
+                        <div class="testimonial-header">
+                            <div class="user-avatar">
+                                <img src="https://pplx-res.cloudinary.com/image/upload/v1755073260/pplx_project_search_images/146381f5f84d429ebf6f002db5b4fae62f1a1ab5.png" alt="Dr. Emily Watson" loading="lazy">
+                            </div>
+                            <div class="user-info">
+                                <h4>Dr. Emily Watson</h4>
+                                <p>Chief Medical Officer, Johns Hopkins</p>
+                                <div class="rating">
+                                    <i data-lucide="star" class="star filled"></i>
+                                    <i data-lucide="star" class="star filled"></i>
+                                    <i data-lucide="star" class="star filled"></i>
+                                    <i data-lucide="star" class="star filled"></i>
+                                    <i data-lucide="star" class="star filled"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <blockquote>
+                            "In emergency situations, Sign2Speech enables life-saving communication between our medical staff and deaf patients. It's become an essential tool in our hospital."
+                        </blockquote>
+                        <div class="testimonial-stats">
+                            <div class="stat">
+                                <span class="stat-label">Hospitals Using</span>
+                                <span class="stat-value">850+</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Response Time</span>
+                                <span class="stat-value">&lt;2 seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonials-controls">
+                    <button class="testimonial-btn prev" id="testimonialPrev">
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    <div class="testimonials-dots">
+                        <div class="dot active"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <button class="testimonial-btn next" id="testimonialNext">
+                        <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="section-badge glass-badge">
+                    <i data-lucide="credit-card"></i>
+                    <span>Pricing Plans</span>
+                </div>
+                <h2 class="section-title">Choose Your Plan</h2>
+                <p class="section-subtitle">Flexible pricing options designed to meet your communication needs, from personal use to enterprise deployment</p>
+            </div>
+            
+            <div class="pricing-toggle">
+                <span class="toggle-label">Monthly</span>
+                <div class="toggle-switch" id="pricingToggle">
+                    <div class="toggle-slider"></div>
+                </div>
+                <span class="toggle-label">Annual <span class="discount-badge">Save 25%</span></span>
+            </div>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card glass-card">
+                    <div class="pricing-header">
+                        <h3>Personal</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount monthly-price">0</span>
+                            <span class="amount annual-price hidden">0</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <p class="plan-description">Perfect for individual use and learning</p>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>Basic gesture recognition</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>5 languages supported</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>Standard speech synthesis</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>Community support</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>Mobile app access</span>
+                        </div>
+                    </div>
+                    <button class="btn btn--outline btn--full-width pricing-btn">
+                        <span>Get Started Free</span>
+                    </button>
+                </div>
+
+                <div class="pricing-card glass-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Professional</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount monthly-price">19</span>
+                            <span class="amount annual-price hidden">14</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <p class="plan-description">Advanced features for professionals and small teams</p>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>Advanced gesture recognition</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>15 languages supported</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>Premium speech synthesis</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>Priority support</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>API access</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>Custom vocabulary</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>Usage analytics</span>
+                        </div>
+                    </div>
+                    <button class="btn btn--primary btn--full-width pricing-btn">
+                        <div class="btn-glow"></div>
+                        <span>Start Free Trial</span>
+                    </button>
+                </div>
+
+                <div class="pricing-card glass-card">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <div class="price">
+                            <span class="amount">Custom</span>
+                        </div>
+                        <p class="plan-description">Scalable solution for organizations</p>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>Custom model training</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>All languages supported</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>On-premise deployment</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>24/7 dedicated support</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>Custom integrations</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>Advanced analytics</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>SLA guarantee</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="check"></i>
+                            <span>White-label options</span>
+                        </div>
+                    </div>
+                    <button class="btn btn--outline btn--full-width pricing-btn">
+                        <span>Contact Sales</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="pricing-faq glass-card">
+                <h3>Frequently Asked Questions</h3>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h4>Can I switch plans anytime?</h4>
+                        <p>Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Is there a free trial?</h4>
+                        <p>Professional plan includes a 14-day free trial. No credit card required to start.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>What payment methods do you accept?</h4>
+                        <p>We accept all major credit cards, PayPal, and wire transfers for enterprise plans.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Do you offer educational discounts?</h4>
+                        <p>Yes, we offer special pricing for educational institutions and non-profit organizations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <div class="section-badge glass-badge">
+                    <i data-lucide="message-circle"></i>
+                    <span>Get in Touch</span>
+                </div>
+                <h2 class="section-title">Contact Our Team</h2>
+                <p class="section-subtitle">Have questions about Sign2Speech? We'd love to hear from you and help break down communication barriers together</p>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-card glass-card">
+                        <div class="contact-icon">
+                            <i data-lucide="mail"></i>
+                        </div>
+                        <h3>Email Us</h3>
+                        <p>Get in touch with our support team</p>
+                        <a href="mailto:gyanshri68@gmail.com" class="contact-link">gyanshri68@gmail.com</a>
+                    </div>
+                    
+                    <div class="contact-card glass-card">
+                        <div class="contact-icon">
+                            <i data-lucide="message-square"></i>
+                        </div>
+                        <h3>Live Chat</h3>
+                        <p>Chat with our AI-powered assistant</p>
+                        <button class="contact-link btn-link" id="liveChatBtn">Start Conversation</button>
+                    </div>
+                    
+                    <div class="contact-card glass-card">
+                        <div class="contact-icon">
+                            <i data-lucide="book-open"></i>
+                        </div>
+                        <h3>Documentation</h3>
+                        <p>Explore our comprehensive guides</p>
+                        <a href="#" class="contact-link">View Docs</a>
+                    </div>
+                    
+                    <div class="contact-card glass-card">
+                        <div class="contact-icon">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <h3>Community</h3>
+                        <p>Join our developer community</p>
+                        <a href="#" class="contact-link">Join Discord</a>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <form class="contact-form glass-card" id="contactForm">
+                        <div class="form-header">
+                            <h3>Send us a Message</h3>
+                            <p>We'll get back to you within 24 hours</p>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address *</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="company" class="form-label">Company/Organization</label>
+                            <input type="text" id="company" name="company" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Subject *</label>
+                            <select id="subject" name="subject" class="form-control" required>
+                                <option value="">Select a topic</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="technical">Technical Support</option>
+                                <option value="sales">Sales & Pricing</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="accessibility">Accessibility Features</option>
+                                <option value="feedback">Feedback & Suggestions</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message *</label>
+                            <textarea id="message" name="message" class="form-control" rows="6" required placeholder="Tell us how we can help improve communication accessibility..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="newsletter" name="newsletter">
+                                <span class="checkmark"></span>
+                                <span>Subscribe to our newsletter for updates and new features</span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn--primary btn--full-width form-submit-btn">
+                            <div class="btn-glow"></div>
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-loader hidden">
+                                <i data-lucide="loader-2" class="spinner"></i>
+                                Sending...
+                            </span>
+                        </button>
+                    </form>
+                    
+                    <div class="form-success glass-card hidden" id="formSuccess">
+                        <div class="success-icon">
+                            <i data-lucide="check-circle"></i>
+                        </div>
+                        <h3>Message Sent Successfully!</h3>
+                        <p>Thank you for reaching out. Our team will get back to you within 24 hours to continue the conversation about accessible communication.</p>
+                        <button class="btn btn--outline" id="sendAnotherBtn">
+                            <span>Send Another Message</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-background">
+            <div class="footer-gradient"></div>
+            <div class="footer-pattern"></div>
+        </div>
+        
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <div class="brand-logo">
+                            <span class="brand-icon">🤟</span>
+                            <div class="brand-glow"></div>
+                        </div>
+                        <div class="brand-info">
+                            <span class="brand-text">Sign2Speech</span>
+                            <span class="brand-tagline">Breaking Communication Barriers</span>
+                        </div>
+                    </div>
+                    <p class="footer-description">
+                        Empowering seamless communication between sign language and speech through cutting-edge AI technology. Join millions of users worldwide in creating a more inclusive world.
+                    </p>
+                    <div class="footer-stats">
+                        <div class="footer-stat">
+                            <div class="stat-number">2.4M+</div>
+                            <div class="stat-label">Active Users</div>
+                        </div>
+                        <div class="footer-stat">
+                            <div class="stat-number">89</div>
+                            <div class="stat-label">Countries</div>
+                        </div>
+                        <div class="footer-stat">
+                            <div class="stat-number">99.7%</div>
+                            <div class="stat-label">Accuracy</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#demo">Live Demo</a>
+                        <a href="#pricing">Pricing</a>
+                        <a href="#analytics">Analytics</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Technology</h4>
+                        <a href="#technology">AI Models</a>
+                        <a href="#">API Documentation</a>
+                        <a href="#">Integrations</a>
+                        <a href="#">Security</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <a href="#">Blog</a>
+                        <a href="#">Tutorials</a>
+                        <a href="#">Community</a>
+                        <a href="#">Support Center</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <a href="#">About Us</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Press Kit</a>
+                        <a href="#contact">Contact</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-developer">
+                <div class="developer-card glass-card">
+                    <div class="developer-avatar">
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1754760304/pplx_project_search_images/8eab37284ef612fd2a2cb6b15b17e42edc6e6165.png" alt="Suresh Bishnoi" loading="lazy">
+                    </div>
+                    <div class="developer-info">
+                        <h4>Suresh Bishnoi</h4>
+                        <p>Lead AI Engineer & Founder</p>
+                        <div class="developer-bio">
+                            <p>Passionate about creating technology that breaks down communication barriers and makes the world more inclusive.</p>
+                            <div class="developer-achievements">
+                                <div class="achievement">
+                                    <i data-lucide="award"></i>
+                                    <span>Former Apple AI Research Engineer</span>
+                                </div>
+                                <div class="achievement">
+                                    <i data-lucide="book-open"></i>
+                                    <span>Published Computer Vision Researcher</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="developer-contact">
+                            <a href="mailto:gyanshri68@gmail.com" class="developer-link">
+                                <i data-lucide="mail"></i>
+                                <span>gyanshri68@gmail.com</span>
+                            </a>
+                            <div class="developer-link">
+                                <i data-lucide="at-sign"></i>
+                                <span>sureshbishnoi09</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <p>&copy; 2025 Sign2Speech. All rights reserved.</p>
+                    <div class="legal-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Policy</a>
+                        <a href="#">GDPR Compliance</a>
+                    </div>
+                </div>
+                <div class="footer-social">
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <i data-lucide="twitter"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">
+                        <i data-lucide="linkedin"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="GitHub">
+                        <i data-lucide="github"></i>
+                    </a>
+                    <a href="#" class="social-link" aria-label="YouTube">
+                        <i data-lucide="youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Accessibility Menu -->
+    <div class="accessibility-menu" id="accessibilityMenu">
+        <button class="accessibility-toggle" id="accessibilityToggle" aria-label="Accessibility Options">
+            <i data-lucide="accessibility"></i>
+        </button>
+        <div class="accessibility-panel glass-card hidden" id="accessibilityPanel">
+            <h3>Accessibility Options</h3>
+            <div class="accessibility-controls">
+                <div class="control-group">
+                    <label class="control-label">
+                        <input type="checkbox" id="highContrast">
+                        <span class="checkmark"></span>
+                        <span>High Contrast Mode</span>
+                    </label>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">
+                        <input type="checkbox" id="largeText">
+                        <span class="checkmark"></span>
+                        <span>Large Text</span>
+                    </label>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">
+                        <input type="checkbox" id="reduceMotion">
+                        <span class="checkmark"></span>
+                        <span>Reduce Motion</span>
+                    </label>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">
+                        <input type="checkbox" id="screenReader">
+                        <span class="checkmark"></span>
+                        <span>Screen Reader Mode</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-toggle" id="chatToggle">
+            <i data-lucide="message-circle"></i>
+            <div class="chat-notification">1</div>
+        </div>
+        <div class="chat-window glass-card hidden" id="chatWindow">
+            <div class="chat-header">
+                <h4>AI Assistant</h4>
+                <button class="chat-close" id="chatClose">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatWidgetMessages">
+                <div class="chat-message bot">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <p>Hello! I'm your AI assistant. How can I help you with Sign2Speech today?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Type your message..." id="chatInput">
+                <button id="chatSend">
+                    <i data-lucide="send"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <span class="brand-icon">🤟</span>
+                <span class="brand-text">Sign2Speech</span>
+            </div>
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <p class="loading-text">Loading AI models...</p>
+            <div class="loading-progress">
+                <div class="progress-bar" id="loadingProgress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
