@@ -42,7 +42,7 @@ A revolutionary web application that translates sign language to speech and spee
 - **Contact Management**: Secure form submissions with database storage
 - **API Documentation**: Interactive Swagger/OpenAPI documentation
 
-## 🏗️ Project Architecture
+##  Project Architecture
 
 ```
 sign2speech/
