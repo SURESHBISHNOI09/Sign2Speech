@@ -29,7 +29,7 @@ class Sign2SpeechApp {
             no: { name: "No", emoji: "👎", speech: "No, not at all" },
             help: { name: "Help", emoji: "🆘", speech: "I need help, please" },
             sorry: { name: "Sorry", emoji: "😔", speech: "I'm sorry about that" },
-            love: { name: "I Love You", emoji: "🤟", speech: "I love you" }
+            love: { name: "I Love You", emoji: "🫶", speech: "I love you" }
         };
 
         // Language translations
